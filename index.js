@@ -16,42 +16,71 @@ Hay un par de bonus que puedes hacer:
 
 /******************************************************************/
 
+// Gastos
+const datos = [];
+
+// Añadir gasto
+const anadirGasto = () => {
+  let cantidad = parseInt(prompt(`Introduce la cantidad:`));
+  let concepto = prompt(`Introduce el concepto (opcional):`)
+  let id = datos.length ? datos[datos.length - 1].id + 1 : 1;
+
+  let movimiento = {
+    id: id,
+    cantidad: - cantidad,
+    concepto: concepto
+  }
+
+  datos.push(movimiento);
+  return datos;
+}
+
+// Mostrar listado de gastos
+const mostrarGastos = () =>{
+  for (const movimiento of datos) {
+    for (const key in movimiento) {
+        console.log(`${key}: ${movimiento[key]}`)
+    }
+  }
+}
+// Editar gasto
+
+// Eliminar gasto
+
 // Menú de elección
-var opcion = 0;
+let opcion = 0;
 
 do {
-  /* opcion = parseInt(prompt(`
+  opcion = parseInt(prompt(`
     Seleccione una opción:
 
       1. Añadir un gasto.
-      2. Editar un gasto.
-      3. Eliminar un gasto.
-      4. Salir.
-  `)); */
+      2. Mostrar gastos.
+      3. Editar un gasto.
+      4. Eliminar un gasto.
+      5. Salir.
+  `));
 
   switch (opcion) {
     case 1:
-      console.log(opcion)
-      //anadirGasto();
+      anadirGasto();
       break;
     case 2:
-      console.log(opcion)
-      //editarGasto();
+      mostrarGastos();
       break;
     case 3:
       console.log(opcion)
+      //editarGasto();
+      break;
+    case 4:
+      console.log(opcion)
       //eliminarGasto();
+      break;
+    case 5:
       break;
     default:
       console.log('Opción no válida')
       break;
   }
 
-} while (opcion != 4);
-
-// Añadir gasto
-
-
-// Editar gasto
-
-// Eliminar gasto
+} while (opcion != 5);
