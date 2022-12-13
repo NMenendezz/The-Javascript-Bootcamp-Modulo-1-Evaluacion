@@ -51,17 +51,35 @@ const editarGasto = () => {
     opciones += `${id}  |  ${cantidad}  |  ${concepto}\n`;
   });
   let id = parseInt(prompt(opciones));
+
   const resultado = datos.map((dato) => {
     if (dato.id === id) {
       dato.cantidad = - prompt(`Introduzca la nueva cantidad`);
       dato.concepto = prompt(`Introduzca el nuevo concepto`);
+      alert(`Movimiento editado correctamente`);
     }
   });
   return resultado;
 }
 
 // Eliminar gasto
+const eliminarGasto = () => {
+  let opciones = `Escriba el id de la transacción a eliminar:\n`
+  datos.forEach(({ id, cantidad, concepto }) => {
+    opciones += `${id}  |  ${cantidad}  |  ${concepto}\n`;
+  });
+  let id = parseInt(prompt(opciones));
 
+  const resultado = datos.filter((dato) => {
+    if (dato.id === id) {
+      datos.splice(datos.indexOf(id) - 1, 1);
+      alert(`Movimiento eliminado`);
+    } else {
+      return dato;
+    }
+  });
+  return resultado;
+}
 
 // Menú de elección
 let opcion = 0;
@@ -88,8 +106,7 @@ do {
       editarGasto();
       break;
     case 4:
-      console.log(opcion)
-      //eliminarGasto();
+      eliminarGasto();
       break;
     case 5:
       break;
