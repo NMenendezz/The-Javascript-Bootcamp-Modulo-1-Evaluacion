@@ -17,10 +17,10 @@ Hay un par de bonus que puedes hacer:
 /******************************************************************/
 
 // Gastos
-const datos = [];
+const datos = JSON.parse(localStorage.getItem("datosGastos")) || [];
 
 // Añadir gasto
-const anadirGasto = () => {
+const anadirGasto = (datos) => {
   let cantidad = parseInt(prompt(`Introduce la cantidad:`));
   let concepto = prompt(`Introduce el concepto (opcional):`)
   let id = datos.length ? datos[datos.length - 1].id + 1 : 1;
@@ -45,41 +45,43 @@ const mostrarGastos = () =>{
 }
 
 // Editar gasto
-const editarGasto = () => {
+const editarGasto = (datos) => {
   let opciones = `Escriba el id de la transacción a editar:\n`
   datos.forEach(({ id, cantidad, concepto }) => {
     opciones += `${id}  |  ${cantidad}  |  ${concepto}\n`;
   });
   let id = parseInt(prompt(opciones));
 
-  const resultado = datos.map((dato) => {
+  const resultado = datos.map((dato) => { 
     if (dato.id === id) {
       dato.cantidad = - prompt(`Introduzca la nueva cantidad`);
       dato.concepto = prompt(`Introduzca el nuevo concepto`);
       alert(`Movimiento editado correctamente`);
     }
+    return dato;
   });
   return resultado;
 }
 
 // Eliminar gasto
-const eliminarGasto = () => {
+const eliminarGasto = (datos) => {
   let opciones = `Escriba el id de la transacción a eliminar:\n`
   datos.forEach(({ id, cantidad, concepto }) => {
     opciones += `${id}  |  ${cantidad}  |  ${concepto}\n`;
   });
   let id = parseInt(prompt(opciones));
 
-  const resultado = datos.filter((dato) => {
-    if (dato.id === id) {
-      datos.splice(datos.indexOf(id) - 1, 1);
-      alert(`Movimiento eliminado`);
-    } else {
-      return dato;
-    }
-  });
-  return resultado;
+  const resultado = datos.find((dato) => dato.id === id);
+  let item = datos.indexOf(resultado)
+  datos.splice(item, 1);
+  alert(`Movimiento eliminado`);
+  return datos;
 }
+
+// Guardar datos
+const guardarDatos = (objeto) => {
+  localStorage.setItem("datosGastos", JSON.stringify(objeto));
+};
 
 // Menú de elección
 let opcion = 0;
@@ -97,16 +99,20 @@ do {
 
   switch (opcion) {
     case 1:
-      anadirGasto();
+      guardarDatos(anadirGasto(datos));
       break;
     case 2:
       mostrarGastos();
       break;
     case 3:
-      editarGasto();
+      datos.length
+        ? guardarDatos(editarGasto(datos))
+        : alert("No hay datos");
       break;
     case 4:
-      eliminarGasto();
+      datos.length
+        ? guardarDatos(eliminarGasto(datos))
+        : alert("No hay datos");
       break;
     case 5:
       break;
