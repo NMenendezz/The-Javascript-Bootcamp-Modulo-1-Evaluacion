@@ -43,9 +43,25 @@ const mostrarGastos = () =>{
     }
   }
 }
+
 // Editar gasto
+const editarGasto = () => {
+  let opciones = `Escriba el id de la transacción a editar:\n`
+  datos.forEach(({ id, cantidad, concepto }) => {
+    opciones += `${id}  |  ${cantidad}  |  ${concepto}\n`;
+  });
+  let id = parseInt(prompt(opciones));
+  const resultado = datos.map((dato) => {
+    if (dato.id === id) {
+      dato.cantidad = - prompt(`Introduzca la nueva cantidad`);
+      dato.concepto = prompt(`Introduzca el nuevo concepto`);
+    }
+  });
+  return resultado;
+}
 
 // Eliminar gasto
+
 
 // Menú de elección
 let opcion = 0;
@@ -69,8 +85,7 @@ do {
       mostrarGastos();
       break;
     case 3:
-      console.log(opcion)
-      //editarGasto();
+      editarGasto();
       break;
     case 4:
       console.log(opcion)
